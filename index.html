@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -13,15 +14,15 @@
             --accent-hover: #e8c7f4;
             --accent-deep: #c98ce4;
 
-            --holiday: #e98aa8;
-            --holiday-soft: #fde8ef;
+            --holiday: #df8cab;
+            --holiday-soft: #fdeaf1;
 
             --bg: #ffffff;
             --surface: #ffffff;
             --text: #5a4d61;
             --muted: #a590af;
             --line: rgba(0, 0, 0, 0.07);
-            --shadow: 0 8px 24px rgba(168, 122, 190, 0.12);
+            --shadow: 0 8px 24px rgba(168, 122, 190, 0.10);
             --today-text: #ffffff;
             --button-bg: rgba(255, 255, 255, 0.30);
             --button-bg-hover: rgba(255, 255, 255, 0.50);
@@ -34,10 +35,10 @@
                 --text: #f1e9f5;
                 --muted: #bfaec8;
                 --line: rgba(255, 255, 255, 0.08);
-                --shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+                --shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
                 --button-bg: rgba(255, 255, 255, 0.14);
                 --button-bg-hover: rgba(255, 255, 255, 0.24);
-                --holiday-soft: rgba(233, 138, 168, 0.16);
+                --holiday-soft: rgba(223, 140, 171, 0.14);
             }
         }
 
@@ -48,7 +49,7 @@
         }
 
         body {
-            font-family: "Arial", sans-serif;
+            font-family: 'Playfair Display', serif;
             color: var(--text);
         }
 
@@ -81,7 +82,7 @@
             table-layout: fixed;
             background-color: var(--surface);
             box-shadow: var(--shadow);
-            border-radius: 20px;
+            border-radius: 10px;
             overflow: hidden;
             position: absolute;
             left: 0;
@@ -95,28 +96,29 @@
 
         tr:first-child th {
             font-size: 19px;
-            font-weight: bold;
+            font-weight: 600;
             border: none;
-            background: linear-gradient(180deg, #e7c6f3 0%, #d8a4ed 100%);
+            background: linear-gradient(180deg, #e9cdf5 0%, #d8a4ed 100%);
             color: #fff;
             position: relative;
             padding: 13px 40px 11px;
+            letter-spacing: 0.03em;
         }
 
         tr:first-child .any {
             font-size: 11px;
-            font-weight: normal;
+            font-weight: 400;
             display: block;
             margin-top: 3px;
             color: rgba(255, 255, 255, 0.88);
-            letter-spacing: 0.02em;
+            letter-spacing: 0.08em;
         }
 
         tr:nth-child(2) th {
             padding: 6px 4px;
             font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 0.03em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
             color: var(--muted);
             background: var(--surface);
             border-bottom: 1px solid var(--line);
@@ -140,20 +142,21 @@
 
         td > span {
             color: var(--text);
-            padding: 9px 6px;
+            padding: 8px 6px;
             display: block;
             border: 1px solid transparent;
             transition:
-                background-color 0.22s ease,
-                color 0.22s ease,
-                border-color 0.22s ease,
-                transform 0.18s ease;
-            border-radius: 10px;
+                background-color 0.24s ease,
+                color 0.24s ease,
+                border-color 0.24s ease,
+                transform 0.18s ease,
+                box-shadow 0.24s ease;
+            border-radius: 6px;
             margin: 2px;
-            line-height: 1.15;
+            line-height: 1.1;
         }
 
-        /* 偶数列の薄い背景を削除して、全曜日を同じ見た目に */
+        /* すべての曜日セルを同じ見た目に統一 */
         td:nth-child(even) > span {
             background-color: transparent;
         }
@@ -164,23 +167,23 @@
         }
 
         td.avui > span {
-            font-weight: bold;
-            background-color: var(--accent);
+            font-weight: 700;
+            background: linear-gradient(180deg, #e4bdf2 0%, var(--accent) 100%);
             color: var(--today-text);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 10px rgba(216, 164, 237, 0.28);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 10px rgba(216, 164, 237, 0.24);
         }
 
         td.holiday > span {
             color: var(--holiday);
-            font-weight: bold;
+            font-weight: 600;
             background: var(--holiday-soft);
         }
 
         td.holiday.avui > span {
-            background: linear-gradient(180deg, #e9b7ca 0%, var(--holiday) 100%);
+            background: linear-gradient(180deg, #ebb8cb 0%, var(--holiday) 100%);
             color: #fff;
-            box-shadow: 0 4px 10px rgba(233, 138, 168, 0.28);
+            box-shadow: 0 4px 10px rgba(223, 140, 171, 0.24);
         }
 
         td.fora > span {
@@ -191,6 +194,7 @@
             background: var(--accent-hover);
             color: #fff;
             transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(216, 164, 237, 0.16);
         }
 
         .boto-next,
@@ -200,7 +204,7 @@
             font-family: inherit;
             border: none;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 700;
             padding: 0;
             line-height: 1;
             height: 28px;
@@ -276,7 +280,6 @@
             return str += this.toString();
         };
 
-        /* 2026-2027 Japanese holidays */
         var holidays = {
             "2026-01-01": "New Year's Day",
             "2026-01-12": "Coming of Age Day",
