@@ -9,10 +9,10 @@
 
     <style>
         :root {
-            --accent: #d8a4ed;
-            --accent-soft: #efd8f8;
-            --accent-hover: #e8c7f4;
-            --accent-deep: #c98ce4;
+            --accent: #b795ff;
+            --accent-soft: #e7dcff;
+            --accent-hover: #ceb8ff;
+            --accent-deep: #9f78f5;
 
             --holiday: #df8cab;
             --holiday-soft: #fdeaf1;
@@ -22,7 +22,7 @@
             --text: #5a4d61;
             --muted: #a590af;
             --line: rgba(0, 0, 0, 0.07);
-            --shadow: 0 8px 24px rgba(168, 122, 190, 0.10);
+            --shadow: 0 8px 20px rgba(146, 111, 214, 0.10);
             --today-text: #ffffff;
             --button-bg: rgba(255, 255, 255, 0.30);
             --button-bg-hover: rgba(255, 255, 255, 0.50);
@@ -35,7 +35,7 @@
                 --text: #f1e9f5;
                 --muted: #bfaec8;
                 --line: rgba(255, 255, 255, 0.08);
-                --shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+                --shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
                 --button-bg: rgba(255, 255, 255, 0.14);
                 --button-bg-hover: rgba(255, 255, 255, 0.24);
                 --holiday-soft: rgba(223, 140, 171, 0.14);
@@ -57,7 +57,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6px;
+            padding: 4px;
             box-sizing: border-box;
         }
 
@@ -68,11 +68,11 @@
 
         #calendari {
             margin: 0 auto;
-            font-size: 13px;
+            font-size: 12px;
             position: relative;
             width: 100%;
-            max-width: 340px;
-            min-height: 278px;
+            max-width: 300px;
+            min-height: 300px;
         }
 
         table {
@@ -82,7 +82,7 @@
             table-layout: fixed;
             background-color: var(--surface);
             box-shadow: var(--shadow);
-            border-radius: 10px;
+            border-radius: 5px;
             overflow: hidden;
             position: absolute;
             left: 0;
@@ -95,28 +95,28 @@
         }
 
         tr:first-child th {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 600;
             border: none;
-            background: linear-gradient(180deg, #e9cdf5 0%, #d8a4ed 100%);
+            background: linear-gradient(180deg, #d9c8ff 0%, #b795ff 100%);
             color: #fff;
             position: relative;
-            padding: 13px 40px 11px;
+            padding: 11px 36px 9px;
             letter-spacing: 0.03em;
         }
 
         tr:first-child .any {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 400;
             display: block;
-            margin-top: 3px;
+            margin-top: 2px;
             color: rgba(255, 255, 255, 0.88);
             letter-spacing: 0.08em;
         }
 
         tr:nth-child(2) th {
-            padding: 6px 4px;
-            font-size: 11px;
+            padding: 5px 3px;
+            font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.05em;
             color: var(--muted);
@@ -142,7 +142,7 @@
 
         td > span {
             color: var(--text);
-            padding: 8px 6px;
+            padding: 8px 4px;
             display: block;
             border: 1px solid transparent;
             transition:
@@ -151,12 +151,11 @@
                 border-color 0.24s ease,
                 transform 0.18s ease,
                 box-shadow 0.24s ease;
-            border-radius: 6px;
-            margin: 2px;
-            line-height: 1.1;
+            border-radius: 3px;
+            margin: 1px;
+            line-height: 1.05;
         }
 
-        /* すべての曜日セルを同じ見た目に統一 */
         td:nth-child(even) > span {
             background-color: transparent;
         }
@@ -168,10 +167,10 @@
 
         td.avui > span {
             font-weight: 700;
-            background: linear-gradient(180deg, #e4bdf2 0%, var(--accent) 100%);
+            background: linear-gradient(180deg, #cfb8ff 0%, var(--accent) 100%);
             color: var(--today-text);
             border: 1px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 4px 10px rgba(216, 164, 237, 0.24);
+            box-shadow: 0 3px 8px rgba(183, 149, 255, 0.24);
         }
 
         td.holiday > span {
@@ -183,7 +182,7 @@
         td.holiday.avui > span {
             background: linear-gradient(180deg, #ebb8cb 0%, var(--holiday) 100%);
             color: #fff;
-            box-shadow: 0 4px 10px rgba(223, 140, 171, 0.24);
+            box-shadow: 0 3px 8px rgba(223, 140, 171, 0.24);
         }
 
         td.fora > span {
@@ -194,7 +193,7 @@
             background: var(--accent-hover);
             color: #fff;
             transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(216, 164, 237, 0.16);
+            box-shadow: 0 2px 6px rgba(183, 149, 255, 0.16);
         }
 
         .boto-next,
@@ -203,15 +202,15 @@
             color: #fff;
             font-family: inherit;
             border: none;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             padding: 0;
             line-height: 1;
-            height: 28px;
-            width: 28px;
+            height: 24px;
+            width: 24px;
             border-radius: 999px;
             position: absolute;
-            top: 12px;
+            top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -219,11 +218,11 @@
         }
 
         .boto-next {
-            right: 12px;
+            right: 10px;
         }
 
         .boto-prev {
-            left: 12px;
+            left: 10px;
         }
 
         .boto-next:hover,
@@ -251,12 +250,12 @@
         }
 
         .amagat-esquerra {
-            transform: translateX(-14px);
+            transform: translateX(-12px);
             opacity: 0;
         }
 
         .amagat-dreta {
-            transform: translateX(14px);
+            transform: translateX(12px);
             opacity: 0;
         }
     </style>
