@@ -1,459 +1,314 @@
 <!DOCTYPE html>
-<!-- original:https://codepen.io/boudra/pen/raErwP -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        :root {
-            --accent: #b795ff;
-            --accent-soft: #e7dcff;
-            --accent-hover: #ceb8ff;
-            --accent-deep: #9f78f5;
+<title>Calendar</title>
 
-            --holiday: #df8cab;
-            --holiday-soft: #fdeaf1;
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
-            --bg: #ffffff;
-            --surface: #ffffff;
-            --text: #5a4d61;
-            --muted: #a590af;
-            --line: rgba(0, 0, 0, 0.07);
-            --shadow: 0 8px 20px rgba(146, 111, 214, 0.10);
-            --today-text: #ffffff;
-            --button-bg: rgba(255, 255, 255, 0.30);
-            --button-bg-hover: rgba(255, 255, 255, 0.50);
-        }
+<style>
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #1f1f1f;
-                --surface: #2a2a2a;
-                --text: #f1e9f5;
-                --muted: #bfaec8;
-                --line: rgba(255, 255, 255, 0.08);
-                --shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-                --button-bg: rgba(255, 255, 255, 0.14);
-                --button-bg-hover: rgba(255, 255, 255, 0.24);
-                --holiday-soft: rgba(223, 140, 171, 0.14);
-            }
-        }
+:root{
+--accent:#b795ff;
+--accent-soft:#e6dbff;
+--accent-deep:#9a73f2;
 
-        html, body {
-            margin: 0;
-            padding: 0;
-            background: var(--bg);
-        }
+--holiday:#df8cab;
+--holiday-soft:#fdeaf1;
 
-        body {
-            font-family: 'Playfair Display', serif;
-            color: var(--text);
-        }
+--text:#5a4d61;
+--muted:#9c8fb3;
+--line:rgba(0,0,0,0.08);
 
-        .wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-            box-sizing: border-box;
-        }
+--shadow:0 6px 18px rgba(146,111,214,0.10);
+}
 
-        button::-moz-focus-inner {
-            border: 0;
-            padding: 0;
-        }
+body{
+margin:0;
+font-family:'Playfair Display',serif;
+color:var(--text);
+background:transparent;
+}
 
-        #calendari {
-            margin: 0 auto;
-            font-size: 13px;
-            position: relative;
-            width: 100%;
-            max-width: 340px;
-            min-height: 350px;
-        }
+.wrapper{
+display:flex;
+justify-content:center;
+padding:6px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            table-layout: fixed;
-            background-color: var(--surface);
-            box-shadow: var(--shadow);
-            border-radius: 3px;
-            overflow: hidden;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
+#calendari{
+width:100%;
+max-width:420px;
+aspect-ratio:1/1;
+position:relative;
+font-size:clamp(13px,1.3vw,16px);
+}
 
-        td, th {
-            text-align: center;
-            background-color: var(--surface);
-        }
+table{
+width:100%;
+height:100%;
+border-collapse:separate;
+border-spacing:0;
+background:#fff;
+box-shadow:var(--shadow);
+border-radius:3px;
+overflow:hidden;
+position:absolute;
+}
 
-        tr:first-child th {
-            font-size: 19px;
-            font-weight: 600;
-            border: none;
-            background: linear-gradient(180deg, #d9c8ff 0%, #b795ff 100%);
-            color: #fff;
-            position: relative;
-            padding: 13px 38px 11px;
-            letter-spacing: 0.03em;
-        }
+td,th{
+text-align:center;
+}
 
-        tr:first-child .any {
-            font-size: 11px;
-            font-weight: 400;
-            display: block;
-            margin-top: 2px;
-            color: rgba(255, 255, 255, 0.88);
-            letter-spacing: 0.08em;
-        }
+tr:first-child th{
+background:linear-gradient(180deg,#d9c8ff,#b795ff);
+color:white;
+padding:12px 40px 10px;
+font-size:1.25em;
+letter-spacing:.03em;
+}
 
-        tr:nth-child(2) th {
-            padding: 7px 4px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: var(--muted);
-            background: var(--surface);
-            border-bottom: 1px solid var(--line);
-        }
+tr:first-child .any{
+display:block;
+font-size:.85em;
+margin-top:2px;
+opacity:.9;
+}
 
-        td {
-            padding: 0;
-            border-bottom: 1px solid var(--line);
-            border-right: 1px solid var(--line);
-            background: var(--surface);
-        }
+tr:nth-child(2) th{
+font-size:.7em;
+letter-spacing:.06em;
+padding:6px 4px;
+color:var(--muted);
+border-bottom:1px solid var(--line);
+}
 
-        td:last-child,
-        th:last-child {
-            border-right: none;
-        }
+td{
+border-right:1px solid var(--line);
+border-bottom:1px solid var(--line);
+}
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+td:last-child,th:last-child{
+border-right:none;
+}
 
-        td > span {
-            color: var(--text);
-            padding: 11px 6px;
-            display: block;
-            border: 1px solid transparent;
-            transition:
-                background-color 0.24s ease,
-                color 0.24s ease,
-                border-color 0.24s ease,
-                transform 0.18s ease,
-                box-shadow 0.24s ease;
-            border-radius: 3px;
-            margin: 1px;
-            line-height: 1.1;
-            font-size: 14px;
-        }
+td span{
+display:flex;
+align-items:center;
+justify-content:center;
+height:100%;
+padding:10px 0;
+}
 
-        td:nth-child(even) > span {
-            background-color: transparent;
-        }
+td.avui span{
+background:var(--accent);
+color:white;
+width:28px;
+height:28px;
+border-radius:50%;
+margin:auto;
+box-shadow:0 2px 6px rgba(183,149,255,.35);
+}
 
-        td:last-child > span,
-        td:nth-child(6) > span {
-            color: var(--accent-deep);
-        }
+td.holiday span{
+color:var(--holiday);
+background:var(--holiday-soft);
+border-radius:6px;
+}
 
-        td.avui > span {
-            font-weight: 700;
-            background: linear-gradient(180deg, #cfb8ff 0%, var(--accent) 100%);
-            color: var(--today-text);
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0 3px 8px rgba(183, 149, 255, 0.24);
-        }
+td.fora span{
+opacity:.2;
+}
 
-        td.holiday > span {
-            color: var(--holiday);
-            font-weight: 600;
-            background: var(--holiday-soft);
-        }
+.boto-next,.boto-prev{
+position:absolute;
+top:10px;
+width:24px;
+height:24px;
+border-radius:50%;
+border:none;
+background:rgba(255,255,255,.25);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
 
-        td.holiday.avui > span {
-            background: linear-gradient(180deg, #ebb8cb 0%, var(--holiday) 100%);
-            color: #fff;
-            box-shadow: 0 3px 8px rgba(223, 140, 171, 0.24);
-        }
+.boto-prev{left:10px}
+.boto-next{right:10px}
 
-        td.fora > span {
-            opacity: 0.22;
-        }
+.actiu{opacity:1;transition:.35s}
+.inactiu{opacity:0;transition:.35s}
 
-        td > span:hover {
-            background: var(--accent-hover);
-            color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(183, 149, 255, 0.16);
-        }
-
-        .boto-next,
-        .boto-prev {
-            background: var(--button-bg);
-            color: #fff;
-            font-family: inherit;
-            border: none;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 0;
-            line-height: 1;
-            height: 26px;
-            width: 26px;
-            border-radius: 999px;
-            position: absolute;
-            top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s ease, transform 0.2s ease;
-        }
-
-        .boto-next {
-            right: 10px;
-        }
-
-        .boto-prev {
-            left: 10px;
-        }
-
-        .boto-next:hover,
-        .boto-prev:hover {
-            background: var(--button-bg-hover);
-            transform: scale(1.05);
-            cursor: pointer;
-        }
-
-        button:focus {
-            outline: none;
-        }
-
-        .actiu {
-            opacity: 1;
-            transform: translateX(0);
-            transition: all 0.35s ease;
-            z-index: 2;
-        }
-
-        .inactiu {
-            opacity: 0;
-            transition: all 0.35s ease;
-            z-index: 1;
-        }
-
-        .amagat-esquerra {
-            transform: translateX(-12px);
-            opacity: 0;
-        }
-
-        .amagat-dreta {
-            transform: translateX(12px);
-            opacity: 0;
-        }
-    </style>
+</style>
 </head>
+
 <body>
-    <div class="wrapper">
-        <div id="calendari"></div>
-    </div>
 
-    <script>
-        var mesos = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
+<div class="wrapper">
+<div id="calendari"></div>
+</div>
 
-        var dies_abr = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+<script>
 
-        Number.prototype.pad = function(num) {
-            var str = '';
-            for (var i = 0; i < (num - this.toString().length); i++) str += '0';
-            return str += this.toString();
-        };
+let holidays={}
 
-        var holidays = {
-            "2026-01-01": "New Year's Day",
-            "2026-01-12": "Coming of Age Day",
-            "2026-02-11": "National Foundation Day",
-            "2026-02-23": "Emperor's Birthday",
-            "2026-03-20": "Vernal Equinox Day",
-            "2026-04-29": "Showa Day",
-            "2026-05-03": "Constitution Memorial Day",
-            "2026-05-04": "Greenery Day",
-            "2026-05-05": "Children's Day",
-            "2026-05-06": "Holiday",
-            "2026-07-20": "Marine Day",
-            "2026-08-11": "Mountain Day",
-            "2026-09-21": "Respect for the Aged Day",
-            "2026-09-22": "Holiday",
-            "2026-09-23": "Autumnal Equinox Day",
-            "2026-10-12": "Sports Day",
-            "2026-11-03": "Culture Day",
-            "2026-11-23": "Labor Thanksgiving Day",
+/* 日本の祝日を自動取得 */
+fetch("https://holidays-jp.github.io/api/v1/date.json")
+.then(res=>res.json())
+.then(data=>{
+holidays=data
+})
 
-            "2027-01-01": "New Year's Day",
-            "2027-01-11": "Coming of Age Day",
-            "2027-02-11": "National Foundation Day",
-            "2027-02-23": "Emperor's Birthday",
-            "2027-03-21": "Vernal Equinox Day",
-            "2027-03-22": "Holiday",
-            "2027-04-29": "Showa Day",
-            "2027-05-03": "Constitution Memorial Day",
-            "2027-05-04": "Greenery Day",
-            "2027-05-05": "Children's Day",
-            "2027-07-19": "Marine Day",
-            "2027-08-11": "Mountain Day",
-            "2027-09-20": "Respect for the Aged Day",
-            "2027-09-23": "Autumnal Equinox Day",
-            "2027-10-11": "Sports Day",
-            "2027-11-03": "Culture Day",
-            "2027-11-23": "Labor Thanksgiving Day"
-        };
+const mesos=[
+'January','February','March','April','May','June',
+'July','August','September','October','November','December'
+]
 
-        function formatDateKey(date) {
-            var y = date.getFullYear();
-            var m = String(date.getMonth() + 1).padStart(2, '0');
-            var d = String(date.getDate()).padStart(2, '0');
-            return y + '-' + m + '-' + d;
-        }
+const dies_abr=['Su','Mo','Tu','We','Th','Fr','Sa']
 
-        function isHoliday(date) {
-            return holidays.hasOwnProperty(formatDateKey(date));
-        }
+Number.prototype.pad=function(num){
+let str=''
+for(let i=0;i<(num-this.toString().length);i++)str+='0'
+return str+=this.toString()
+}
 
-        function calendari(widget, data) {
-            var original = widget.getElementsByClassName('actiu')[0];
+function formatDateKey(date){
+let y=date.getFullYear()
+let m=String(date.getMonth()+1).padStart(2,'0')
+let d=String(date.getDate()).padStart(2,'0')
+return y+"-"+m+"-"+d
+}
 
-            if (typeof original === 'undefined') {
-                original = document.createElement('table');
-                original.setAttribute(
-                    'data-actual',
-                    data.getFullYear() + '/' +
-                    data.getMonth().pad(2) + '/' +
-                    data.getDate().pad(2)
-                );
-                widget.appendChild(original);
-            }
+function isHoliday(date){
+return holidays[formatDateKey(date)]
+}
 
-            var diff = data - new Date(original.getAttribute('data-actual'));
-            diff = new Date(diff).getMonth();
+function calendari(widget,data){
 
-            var e = document.createElement('table');
-            e.className = diff === 0 ? 'amagat-esquerra' : 'amagat-dreta';
-            e.innerHTML = '';
+let original=widget.getElementsByClassName('actiu')[0]
 
-            widget.appendChild(e);
+if(!original){
+original=document.createElement('table')
+original.setAttribute('data-actual',
+data.getFullYear()+'/'+
+data.getMonth().pad(2)+'/'+
+data.getDate().pad(2))
+widget.appendChild(original)
+}
 
-            e.setAttribute(
-                'data-actual',
-                data.getFullYear() + '/' +
-                data.getMonth().pad(2) + '/' +
-                data.getDate().pad(2)
-            );
+let diff=data-new Date(original.getAttribute('data-actual'))
+diff=new Date(diff).getMonth()
 
-            var fila = document.createElement('tr');
-            var titol = document.createElement('th');
-            titol.setAttribute('colspan', 7);
+let e=document.createElement('table')
+e.className=diff===0?'amagat-esquerra':'amagat-dreta'
 
-            var boto_prev = document.createElement('button');
-            boto_prev.className = 'boto-prev';
-            boto_prev.innerHTML = '&#9666;';
+widget.appendChild(e)
 
-            var boto_next = document.createElement('button');
-            boto_next.className = 'boto-next';
-            boto_next.innerHTML = '&#9656;';
+e.setAttribute('data-actual',
+data.getFullYear()+'/'+
+data.getMonth().pad(2)+'/'+
+data.getDate().pad(2))
 
-            titol.appendChild(boto_prev);
-            titol.appendChild(document.createElement('span')).innerHTML =
-                mesos[data.getMonth()] + '<span class="any">' + data.getFullYear() + '</span>';
-            titol.appendChild(boto_next);
+let fila=document.createElement('tr')
+let titol=document.createElement('th')
+titol.setAttribute('colspan',7)
 
-            boto_prev.onclick = function() {
-                data.setMonth(data.getMonth() - 1);
-                calendari(widget, data);
-            };
+let prev=document.createElement('button')
+prev.className='boto-prev'
+prev.innerHTML='‹'
 
-            boto_next.onclick = function() {
-                data.setMonth(data.getMonth() + 1);
-                calendari(widget, data);
-            };
+let next=document.createElement('button')
+next.className='boto-next'
+next.innerHTML='›'
 
-            fila.appendChild(titol);
-            e.appendChild(fila);
+titol.appendChild(prev)
+titol.appendChild(document.createElement('span')).innerHTML=
+mesos[data.getMonth()]+'<span class="any">'+data.getFullYear()+'</span>'
+titol.appendChild(next)
 
-            fila = document.createElement('tr');
-            for (var i = 1; i < 7; i++) {
-                fila.innerHTML += '<th>' + dies_abr[i] + '</th>';
-            }
-            fila.innerHTML += '<th>' + dies_abr[0] + '</th>';
-            e.appendChild(fila);
+prev.onclick=function(){
+data.setMonth(data.getMonth()-1)
+calendari(widget,data)
+}
 
-            var inici_mes = new Date(data.getFullYear(), data.getMonth(), -1).getDay();
-            var actual = new Date(data.getFullYear(), data.getMonth(), -inici_mes);
+next.onclick=function(){
+data.setMonth(data.getMonth()+1)
+calendari(widget,data)
+}
 
-            for (var s = 0; s < 6; s++) {
-                var fila = document.createElement('tr');
+fila.appendChild(titol)
+e.appendChild(fila)
 
-                for (var d = 1; d < 8; d++) {
-                    var cela = document.createElement('td');
-                    var span = document.createElement('span');
-                    cela.appendChild(span);
+fila=document.createElement('tr')
 
-                    span.innerHTML = actual.getDate();
+for(let i=1;i<7;i++)
+fila.innerHTML+='<th>'+dies_abr[i]+'</th>'
 
-                    var classes = [];
+fila.innerHTML+='<th>'+dies_abr[0]+'</th>'
+e.appendChild(fila)
 
-                    if (actual.getMonth() !== data.getMonth()) {
-                        classes.push('fora');
-                    }
+let inici_mes=new Date(data.getFullYear(),data.getMonth(),-1).getDay()
 
-                    if (
-                        data.getDate() == actual.getDate() &&
-                        data.getMonth() == actual.getMonth() &&
-                        data.getFullYear() == actual.getFullYear()
-                    ) {
-                        classes.push('avui');
-                    }
+let actual=new Date(data.getFullYear(),data.getMonth(),-inici_mes)
 
-                    if (isHoliday(actual)) {
-                        classes.push('holiday');
-                        span.title = holidays[formatDateKey(actual)];
-                    }
+for(let s=0;s<6;s++){
 
-                    cela.className = classes.join(' ');
+let fila=document.createElement('tr')
 
-                    actual.setDate(actual.getDate() + 1);
-                    fila.appendChild(cela);
-                }
+for(let d=1;d<8;d++){
 
-                e.appendChild(fila);
-            }
+let cela=document.createElement('td')
+let span=document.createElement('span')
 
-            setTimeout(function() {
-                e.className = 'actiu';
-                original.className += diff === 0 ? ' amagat-dreta' : ' amagat-esquerra';
-            }, 20);
+cela.appendChild(span)
 
-            original.className = 'inactiu';
+span.innerHTML=actual.getDate()
 
-            setTimeout(function() {
-                var inactius = document.getElementsByClassName('inactiu');
-                for (var i = 0; i < inactius.length; i++) {
-                    widget.removeChild(inactius[i]);
-                }
-            }, 1000);
-        }
+let classes=[]
 
-        calendari(document.getElementById('calendari'), new Date());
-    </script>
+if(actual.getMonth()!==data.getMonth())
+classes.push('fora')
+
+if(
+data.getDate()==actual.getDate() &&
+data.getMonth()==actual.getMonth() &&
+data.getFullYear()==actual.getFullYear()
+)
+classes.push('avui')
+
+if(isHoliday(actual))
+classes.push('holiday')
+
+cela.className=classes.join(' ')
+
+actual.setDate(actual.getDate()+1)
+
+fila.appendChild(cela)
+
+}
+
+e.appendChild(fila)
+
+}
+
+setTimeout(()=>{
+e.className='actiu'
+original.className+=' inactiu'
+},20)
+
+setTimeout(()=>{
+let inactius=document.getElementsByClassName('inactiu')
+for(let i=0;i<inactius.length;i++)
+widget.removeChild(inactius[i])
+},300)
+
+}
+
+calendari(document.getElementById('calendari'),new Date())
+
+</script>
+
 </body>
 </html>
