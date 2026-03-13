@@ -13,18 +13,37 @@
     --accent-deep:#9a73f2;
 
     --holiday:#df8cab;
-    --holiday-soft:#fdeaf1;
 
     --text:#5a4d61;
     --muted:#9c8fb3;
     --line:rgba(0,0,0,0.08);
 
     --shadow:0 6px 18px rgba(146,111,214,0.10);
+    --surface:#ffffff;
+    --header-grad-1:#d9c8ff;
+    --header-grad-2:#b795ff;
+}
+
+@media (prefers-color-scheme: dark){
+    :root{
+        --text:#f1e9f5;
+        --muted:#c4b7d6;
+        --line:rgba(255,255,255,0.08);
+        --shadow:0 8px 20px rgba(0,0,0,0.22);
+        --surface:#2a2a2a;
+        --header-grad-1:#c8b0ff;
+        --header-grad-2:#b795ff;
+    }
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    background:transparent;
 }
 
 body{
-    margin:0;
-    font-family:'Playfair Display',serif;
+    font-family:'Playfair Display', serif;
     color:var(--text);
     background:transparent;
 }
@@ -41,7 +60,7 @@ body{
     max-width:420px;
     aspect-ratio:1 / 1;
     position:relative;
-    font-size:clamp(13px,1.3vw,16px);
+    font-size:clamp(13px,1.25vw,16px);
 }
 
 table{
@@ -49,7 +68,8 @@ table{
     height:100%;
     border-collapse:separate;
     border-spacing:0;
-    background:#fff;
+    table-layout:fixed;
+    background:var(--surface);
     box-shadow:var(--shadow);
     border-radius:3px;
     overflow:hidden;
@@ -59,23 +79,26 @@ table{
 
 td,th{
     text-align:center;
+    background:var(--surface);
 }
 
 tr:first-child th{
-    background:linear-gradient(180deg,#d9c8ff,#b795ff);
+    background:linear-gradient(180deg,var(--header-grad-1),var(--header-grad-2));
     color:#fff;
     padding:12px 40px 10px;
     font-size:1.25em;
     letter-spacing:.03em;
     border:none;
     position:relative;
+    font-weight:600;
 }
 
 tr:first-child .any{
     display:block;
-    font-size:.95em;
+    font-size:1em; /* 2026を少し大きく */
     margin-top:2px;
-    opacity:.9;
+    opacity:.92;
+    line-height:1.1;
 }
 
 tr:nth-child(2) th{
@@ -91,6 +114,7 @@ td{
     border-right:1px solid var(--line);
     border-bottom:1px solid var(--line);
     vertical-align:middle;
+    padding:0;
 }
 
 td:last-child,
@@ -102,45 +126,49 @@ tr:last-child td{
     border-bottom:none;
 }
 
-td span{
+td > span{
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:10px 0;
+    width:100%;
+    min-height:44px;
+    padding:0;
+    margin:0;
     line-height:1;
+    box-sizing:border-box;
 }
 
-td.avui span{
-    width:30px;
-    height:30px;
-    min-width:30px;
-    min-height:30px;
+/* 今日の日付は完全な正円 */
+td.avui > span{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    min-height:32px;
+    padding:0;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     background:var(--accent);
     color:#fff;
     border-radius:50%;
-    margin:auto;
-    line-height:1;
+    box-sizing:border-box;
     box-shadow:0 2px 6px rgba(183,149,255,.35);
 }
 
-td.holiday span{
+/* 祝日は行の高さを変えないように文字色のみで表現 */
+td.holiday > span{
     color:var(--holiday);
-    background:var(--holiday-soft);
-    border-radius:6px;
-    padding-left:6px;
-    padding-right:6px;
-    margin:2px;
+    font-weight:600;
 }
 
-td.holiday.avui span{
+/* 今日かつ祝日なら、丸はそのままで文字色は白を優先 */
+td.holiday.avui > span{
     color:#fff;
     background:var(--accent);
-    border-radius:50%;
-    padding:0;
-    margin:auto;
 }
 
-td.fora span{
+td.fora > span{
     opacity:.2;
 }
 
@@ -159,6 +187,8 @@ td.fora span{
     display:flex;
     align-items:center;
     justify-content:center;
+    padding:0;
+    line-height:1;
 }
 
 .boto-prev{
@@ -214,9 +244,9 @@ Number.prototype.pad = function(num){
 };
 
 function formatDateKey(date){
-    let y = date.getFullYear();
-    let m = String(date.getMonth() + 1).padStart(2,'0');
-    let d = String(date.getDate()).padStart(2,'0');
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2,'0');
+    const d = String(date.getDate()).padStart(2,'0');
     return y + "-" + m + "-" + d;
 }
 
@@ -227,19 +257,19 @@ function isHoliday(date){
 function calendari(widget, data){
     widget.innerHTML = '';
 
-    let e = document.createElement('table');
+    const e = document.createElement('table');
     e.className = 'actiu';
     widget.appendChild(e);
 
     let fila = document.createElement('tr');
-    let titol = document.createElement('th');
+    const titol = document.createElement('th');
     titol.setAttribute('colspan', 7);
 
-    let prev = document.createElement('button');
+    const prev = document.createElement('button');
     prev.className = 'boto-prev';
     prev.innerHTML = '‹';
 
-    let next = document.createElement('button');
+    const next = document.createElement('button');
     next.className = 'boto-next';
     next.innerHTML = '›';
 
@@ -270,26 +300,26 @@ function calendari(widget, data){
     fila.innerHTML += '<th>' + dies_abr[0] + '</th>';
     e.appendChild(fila);
 
-    let inici_mes = new Date(data.getFullYear(), data.getMonth(), -1).getDay();
+    const inici_mes = new Date(data.getFullYear(), data.getMonth(), -1).getDay();
     let actual = new Date(data.getFullYear(), data.getMonth(), -inici_mes);
+    const today = new Date();
 
     for(let s = 0; s < 6; s++){
-        let filaSetmana = document.createElement('tr');
+        const filaSetmana = document.createElement('tr');
 
         for(let d = 1; d < 8; d++){
-            let cela = document.createElement('td');
-            let span = document.createElement('span');
+            const cela = document.createElement('td');
+            const span = document.createElement('span');
             cela.appendChild(span);
 
-            span.innerHTML = actual.getDate();
+            span.textContent = actual.getDate();
 
-            let classes = [];
+            const classes = [];
 
             if(actual.getMonth() !== data.getMonth()){
                 classes.push('fora');
             }
 
-            const today = new Date();
             if(
                 today.getDate() === actual.getDate() &&
                 today.getMonth() === actual.getMonth() &&
