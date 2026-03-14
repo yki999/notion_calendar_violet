@@ -4,380 +4,546 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calendar</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-    --accent:#b795ff;
-    --accent-soft:#e6dbff;
-    --accent-deep:#9a73f2;
+--accent:#b795ff;
+--accent-soft:#e6dbff;
+--accent-deep:#9a73f2;
 
-    --holiday:#df8cab;
-    --saturday:#9a73f2;
+--holiday:#df8cab;
+--saturday:#9a73f2;
 
-    --text:#5a4d61;
-    --muted:#9c8fb3;
-    --line:rgba(0,0,0,0.08);
+--text:#5a4d61;
+--muted:#9c8fb3;
+--line:rgba(0,0,0,0.08);
 
-    --shadow:0 6px 18px rgba(146,111,214,0.10);
-    --surface:#ffffff;
-    --page-bg:transparent;
-    --header-grad-1:#d9c8ff;
-    --header-grad-2:#b795ff;
+--shadow:0 6px 18px rgba(146,111,214,0.10);
+--surface:#ffffff;
+
+--header-grad-1:#d9c8ff;
+--header-grad-2:#b795ff;
 }
 
 @media (prefers-color-scheme: dark){
-    :root{
-        --text:#f1e9f5;
-        --muted:#c4b7d6;
-        --line:rgba(255,255,255,0.08);
-        --shadow:0 8px 20px rgba(0,0,0,0.22);
-        --surface:#2a2a2a;
-        --page-bg:#2a2a2a;
-        --header-grad-1:#c8b0ff;
-        --header-grad-2:#b795ff;
-    }
+
+:root{
+
+--text:#f1e9f5;
+--muted:#c4b7d6;
+
+--line:rgba(255,255,255,0.08);
+
+--surface:#2a2a2a;
+
+--shadow:none;
+
+--header-grad-1:#c8b0ff;
+--header-grad-2:#b795ff;
+
+}
+
 }
 
 html,body{
-    margin:0;
-    padding:0;
-    background:var(--page-bg);
+margin:0;
+padding:0;
+background:transparent;
 }
 
 body{
-    font-family:'Playfair Display', serif;
-    color:var(--text);
-    background:var(--page-bg);
+font-family:'Playfair Display', serif;
+color:var(--text);
+background:transparent;
 }
 
 .wrapper{
-    display:flex;
-    justify-content:center;
-    padding:6px;
-    box-sizing:border-box;
-    background:var(--page-bg);
+display:flex;
+justify-content:center;
+padding:6px;
+box-sizing:border-box;
+background:transparent;
 }
 
 #calendari{
-    width:100%;
-    max-width:420px;
-    aspect-ratio:1 / 1;
-    position:relative;
-    font-size:clamp(13px,1.25vw,16px);
-    background:var(--page-bg);
+width:100%;
+max-width:420px;
+aspect-ratio:1/1;
+position:relative;
+font-size:clamp(13px,1.25vw,16px);
+background:transparent;
 }
 
 table{
-    width:100%;
-    height:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    table-layout:fixed;
-    background:var(--surface);
-    box-shadow:var(--shadow);
-    border-radius:3px;
-    overflow:hidden;
-    position:absolute;
-    inset:0;
+
+width:100%;
+height:100%;
+
+border-collapse:separate;
+border-spacing:0;
+table-layout:fixed;
+
+background:var(--surface);
+
+box-shadow:var(--shadow);
+
+border-radius:3px;
+
+overflow:hidden;
+
+position:absolute;
+inset:0;
+
 }
 
 td,th{
-    text-align:center;
-    background:var(--surface);
+text-align:center;
+background:var(--surface);
 }
 
 tr:first-child th{
-    background:linear-gradient(180deg,var(--header-grad-1),var(--header-grad-2));
-    color:#fff;
-    padding:12px 40px 10px;
-    font-size:1.25em;
-    letter-spacing:.03em;
-    border:none;
-    position:relative;
-    font-weight:600;
+
+background:linear-gradient(180deg,var(--header-grad-1),var(--header-grad-2));
+
+color:#fff;
+
+padding:12px 40px 10px;
+
+font-size:1.25em;
+
+letter-spacing:.03em;
+
+border:none;
+
+position:relative;
+
+font-weight:600;
+
 }
 
 tr:first-child .any{
-    display:block;
-    font-size:1em;
-    margin-top:2px;
-    opacity:.92;
-    line-height:1.1;
+
+display:block;
+
+font-size:1em;
+
+margin-top:2px;
+
+opacity:.92;
+
+line-height:1.1;
+
 }
 
 tr:nth-child(2) th{
-    font-size:.7em;
-    letter-spacing:.06em;
-    padding:6px 4px;
-    color:var(--muted);
-    border-bottom:1px solid var(--line);
-    font-weight:600;
+
+font-size:.7em;
+
+letter-spacing:.06em;
+
+padding:6px 4px;
+
+color:var(--muted);
+
+border-bottom:1px solid var(--line);
+
+font-weight:600;
+
 }
 
-/* 曜日ヘッダー：土曜だけ少しラベンダー、日曜はローズ */
+/* 土曜 */
 tr:nth-child(2) th:nth-child(6){
-    color:var(--saturday);
+color:var(--saturday);
 }
+
+/* 日曜 */
 tr:nth-child(2) th:nth-child(7){
-    color:var(--holiday);
+color:var(--holiday);
 }
 
 td{
-    border-right:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    vertical-align:middle;
-    padding:0;
+
+border-right:1px solid var(--line);
+border-bottom:1px solid var(--line);
+
+vertical-align:middle;
+
+padding:0;
+
 }
 
 td:last-child,
 th:last-child{
-    border-right:none;
+border-right:none;
 }
 
 tr:last-child td{
-    border-bottom:none;
+border-bottom:none;
 }
 
-td > span{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    min-height:44px;
-    padding:0;
-    margin:0;
-    line-height:1;
-    box-sizing:border-box;
+td>span{
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+width:100%;
+
+min-height:44px;
+
+padding:0;
+
+margin:0;
+
+line-height:1;
+
+box-sizing:border-box;
+
 }
 
-/* 土曜日の文字色 */
-td.saturday > span{
-    color:var(--saturday);
+/* 土曜日 */
+
+td.saturday>span{
+color:var(--saturday);
 }
 
-/* 日曜日の文字色 */
-td.sunday > span{
-    color:var(--holiday);
+/* 日曜日 */
+
+td.sunday>span{
+color:var(--holiday);
 }
 
-/* 今日の日付は完全な正円 */
-td.avui > span{
-    width:32px;
-    height:32px;
-    min-width:32px;
-    min-height:32px;
-    padding:0;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:var(--accent);
-    color:#fff;
-    border-radius:50%;
-    box-sizing:border-box;
-    box-shadow:0 2px 6px rgba(183,149,255,.35);
+/* 今日 */
+
+td.avui>span{
+
+width:32px;
+height:32px;
+
+min-width:32px;
+min-height:32px;
+
+padding:0;
+
+margin:auto;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+background:var(--accent);
+
+color:#fff;
+
+border-radius:50%;
+
+box-sizing:border-box;
+
+box-shadow:0 2px 6px rgba(183,149,255,.35);
+
 }
 
-/* 祝日は文字色のみで表現（日曜と同じローズ） */
-td.holiday > span{
-    color:var(--holiday);
-    font-weight:600;
+/* 祝日 */
+
+td.holiday>span{
+
+color:var(--holiday);
+
+font-weight:600;
+
 }
 
-/* 今日かつ祝日なら、丸はそのままで文字色は白を優先 */
-td.holiday.avui > span{
-    color:#fff;
-    background:var(--accent);
+/* 今日が祝日 */
+
+td.holiday.avui>span{
+
+color:#fff;
+
+background:var(--accent);
+
 }
 
-/* 今日かつ土曜でも白を優先 */
-td.saturday.avui > span,
-td.sunday.avui > span{
-    color:#fff;
+td.saturday.avui>span,
+td.sunday.avui>span{
+
+color:#fff;
+
 }
 
-td.fora > span{
-    opacity:.2;
+td.fora>span{
+
+opacity:.2;
+
 }
 
 .boto-next,
 .boto-prev{
-    position:absolute;
-    top:10px;
-    width:24px;
-    height:24px;
-    border-radius:50%;
-    border:none;
-    background:rgba(255,255,255,.25);
-    color:#fff;
-    font-weight:bold;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0;
-    line-height:1;
+
+position:absolute;
+
+top:10px;
+
+width:24px;
+height:24px;
+
+border-radius:50%;
+
+border:none;
+
+background:rgba(255,255,255,.25);
+
+color:#fff;
+
+font-weight:bold;
+
+cursor:pointer;
+
+display:flex;
+
+align-items:center;
+justify-content:center;
+
+padding:0;
+
+line-height:1;
+
 }
 
 .boto-prev{
-    left:10px;
+left:10px;
 }
 
 .boto-next{
-    right:10px;
+right:10px;
 }
 
 .actiu{
-    opacity:1;
-    transition:.35s;
+opacity:1;
+transition:.35s;
 }
 
 .inactiu{
-    opacity:0;
-    transition:.35s;
+opacity:0;
+transition:.35s;
 }
+
 </style>
 </head>
 
 <body>
+
 <div class="wrapper">
-    <div id="calendari"></div>
+<div id="calendari"></div>
 </div>
 
 <script>
-let holidays = {};
 
-/* 日本の祝日を自動取得 */
+let holidays={}
+
 fetch("https://holidays-jp.github.io/api/v1/date.json")
-    .then(res => res.json())
-    .then(data => {
-        holidays = data;
-        calendari(document.getElementById('calendari'), new Date());
-    })
-    .catch(() => {
-        calendari(document.getElementById('calendari'), new Date());
-    });
+.then(res=>res.json())
+.then(data=>{
 
-const mesos = [
-    'January','February','March','April','May','June',
-    'July','August','September','October','November','December'
-];
+holidays=data
 
-const dies_abr = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+calendari(document.getElementById('calendari'),new Date())
 
-Number.prototype.pad = function(num){
-    let str = '';
-    for(let i = 0; i < (num - this.toString().length); i++) str += '0';
-    return str + this.toString();
-};
+})
+.catch(()=>{
+
+calendari(document.getElementById('calendari'),new Date())
+
+})
+
+const mesos=[
+
+'January','February','March','April','May','June',
+'July','August','September','October','November','December'
+
+]
+
+const dies_abr=['Su','Mo','Tu','We','Th','Fr','Sa']
+
+Number.prototype.pad=function(num){
+
+let str=''
+
+for(let i=0;i<(num-this.toString().length);i++)str+='0'
+
+return str+this.toString()
+
+}
 
 function formatDateKey(date){
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2,'0');
-    const d = String(date.getDate()).padStart(2,'0');
-    return y + "-" + m + "-" + d;
+
+const y=date.getFullYear()
+
+const m=String(date.getMonth()+1).padStart(2,'0')
+
+const d=String(date.getDate()).padStart(2,'0')
+
+return y+"-"+m+"-"+d
+
 }
 
 function isHoliday(date){
-    return holidays[formatDateKey(date)];
+
+return holidays[formatDateKey(date)]
+
 }
 
-function calendari(widget, data){
-    widget.innerHTML = '';
+function calendari(widget,data){
 
-    const e = document.createElement('table');
-    e.className = 'actiu';
-    widget.appendChild(e);
+widget.innerHTML=''
 
-    let fila = document.createElement('tr');
-    const titol = document.createElement('th');
-    titol.setAttribute('colspan', 7);
+const e=document.createElement('table')
 
-    const prev = document.createElement('button');
-    prev.className = 'boto-prev';
-    prev.innerHTML = '‹';
+e.className='actiu'
 
-    const next = document.createElement('button');
-    next.className = 'boto-next';
-    next.innerHTML = '›';
+widget.appendChild(e)
 
-    titol.appendChild(prev);
-    titol.appendChild(document.createElement('span')).innerHTML =
-        mesos[data.getMonth()] + '<span class="any">' + data.getFullYear() + '</span>';
-    titol.appendChild(next);
+let fila=document.createElement('tr')
 
-    prev.onclick = function(){
-        const newDate = new Date(data);
-        newDate.setMonth(newDate.getMonth() - 1);
-        calendari(widget, newDate);
-    };
+const titol=document.createElement('th')
 
-    next.onclick = function(){
-        const newDate = new Date(data);
-        newDate.setMonth(newDate.getMonth() + 1);
-        calendari(widget, newDate);
-    };
+titol.setAttribute('colspan',7)
 
-    fila.appendChild(titol);
-    e.appendChild(fila);
+const prev=document.createElement('button')
 
-    fila = document.createElement('tr');
-    for(let i = 1; i < 7; i++){
-        fila.innerHTML += '<th>' + dies_abr[i] + '</th>';
-    }
-    fila.innerHTML += '<th>' + dies_abr[0] + '</th>';
-    e.appendChild(fila);
+prev.className='boto-prev'
 
-    const inici_mes = new Date(data.getFullYear(), data.getMonth(), -1).getDay();
-    let actual = new Date(data.getFullYear(), data.getMonth(), -inici_mes);
-    const today = new Date();
+prev.innerHTML='‹'
 
-    for(let s = 0; s < 6; s++){
-        const filaSetmana = document.createElement('tr');
+const next=document.createElement('button')
 
-        for(let d = 1; d < 8; d++){
-            const cela = document.createElement('td');
-            const span = document.createElement('span');
-            cela.appendChild(span);
+next.className='boto-next'
 
-            span.textContent = actual.getDate();
+next.innerHTML='›'
 
-            const classes = [];
+titol.appendChild(prev)
 
-            if(actual.getMonth() !== data.getMonth()){
-                classes.push('fora');
-            }
+titol.appendChild(document.createElement('span')).innerHTML=
 
-            if(
-                today.getDate() === actual.getDate() &&
-                today.getMonth() === actual.getMonth() &&
-                today.getFullYear() === actual.getFullYear()
-            ){
-                classes.push('avui');
-            }
+mesos[data.getMonth()]+'<span class="any">'+data.getFullYear()+'</span>'
 
-            if(d === 6){
-                classes.push('saturday');
-            }
-            if(d === 7){
-                classes.push('sunday');
-            }
+titol.appendChild(next)
 
-            if(isHoliday(actual)){
-                classes.push('holiday');
-                span.title = holidays[formatDateKey(actual)];
-            }
+prev.onclick=function(){
 
-            cela.className = classes.join(' ');
+const newDate=new Date(data)
 
-            actual.setDate(actual.getDate() + 1);
-            filaSetmana.appendChild(cela);
-        }
+newDate.setMonth(newDate.getMonth()-1)
 
-        e.appendChild(filaSetmana);
-    }
+calendari(widget,newDate)
+
 }
+
+next.onclick=function(){
+
+const newDate=new Date(data)
+
+newDate.setMonth(newDate.getMonth()+1)
+
+calendari(widget,newDate)
+
+}
+
+fila.appendChild(titol)
+
+e.appendChild(fila)
+
+fila=document.createElement('tr')
+
+for(let i=1;i<7;i++){
+
+fila.innerHTML+='<th>'+dies_abr[i]+'</th>'
+
+}
+
+fila.innerHTML+='<th>'+dies_abr[0]+'</th>'
+
+e.appendChild(fila)
+
+const inici_mes=new Date(data.getFullYear(),data.getMonth(),-1).getDay()
+
+let actual=new Date(data.getFullYear(),data.getMonth(),-inici_mes)
+
+const today=new Date()
+
+for(let s=0;s<6;s++){
+
+const filaSetmana=document.createElement('tr')
+
+for(let d=1;d<8;d++){
+
+const cela=document.createElement('td')
+
+const span=document.createElement('span')
+
+cela.appendChild(span)
+
+span.textContent=actual.getDate()
+
+const classes=[]
+
+if(actual.getMonth()!==data.getMonth()){
+
+classes.push('fora')
+
+}
+
+if(
+
+today.getDate()===actual.getDate() &&
+today.getMonth()===actual.getMonth() &&
+today.getFullYear()===actual.getFullYear()
+
+){
+
+classes.push('avui')
+
+}
+
+if(d===6){
+
+classes.push('saturday')
+
+}
+
+if(d===7){
+
+classes.push('sunday')
+
+}
+
+if(isHoliday(actual)){
+
+classes.push('holiday')
+
+span.title=holidays[formatDateKey(actual)]
+
+}
+
+cela.className=classes.join(' ')
+
+actual.setDate(actual.getDate()+1)
+
+filaSetmana.appendChild(cela)
+
+}
+
+e.appendChild(filaSetmana)
+
+}
+
+}
+
 </script>
+
 </body>
 </html>
