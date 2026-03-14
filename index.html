@@ -13,6 +13,7 @@
     --accent-deep:#9a73f2;
 
     --holiday:#df8cab;
+    --saturday:#9a73f2;
 
     --text:#5a4d61;
     --muted:#9c8fb3;
@@ -95,7 +96,7 @@ tr:first-child th{
 
 tr:first-child .any{
     display:block;
-    font-size:1em; /* 2026を少し大きく */
+    font-size:1em;
     margin-top:2px;
     opacity:.92;
     line-height:1.1;
@@ -108,6 +109,14 @@ tr:nth-child(2) th{
     color:var(--muted);
     border-bottom:1px solid var(--line);
     font-weight:600;
+}
+
+/* 曜日ヘッダー：土曜だけ少しラベンダー、日曜はローズ */
+tr:nth-child(2) th:nth-child(6){
+    color:var(--saturday);
+}
+tr:nth-child(2) th:nth-child(7){
+    color:var(--holiday);
 }
 
 td{
@@ -138,6 +147,16 @@ td > span{
     box-sizing:border-box;
 }
 
+/* 土曜日の文字色 */
+td.saturday > span{
+    color:var(--saturday);
+}
+
+/* 日曜日の文字色 */
+td.sunday > span{
+    color:var(--holiday);
+}
+
 /* 今日の日付は完全な正円 */
 td.avui > span{
     width:32px;
@@ -156,7 +175,7 @@ td.avui > span{
     box-shadow:0 2px 6px rgba(183,149,255,.35);
 }
 
-/* 祝日は行の高さを変えないように文字色のみで表現 */
+/* 祝日は文字色のみで表現（日曜と同じローズ） */
 td.holiday > span{
     color:var(--holiday);
     font-weight:600;
@@ -166,6 +185,12 @@ td.holiday > span{
 td.holiday.avui > span{
     color:#fff;
     background:var(--accent);
+}
+
+/* 今日かつ土曜でも白を優先 */
+td.saturday.avui > span,
+td.sunday.avui > span{
+    color:#fff;
 }
 
 td.fora > span{
@@ -326,6 +351,18 @@ function calendari(widget, data){
                 today.getFullYear() === actual.getFullYear()
             ){
                 classes.push('avui');
+            }
+
+            /* 列ベースで土日判定
+               d=1..7 で回しているため
+               d=6 -> Saturday
+               d=7 -> Sunday
+            */
+            if(d === 6){
+                classes.push('saturday');
+            }
+            if(d === 7){
+                classes.push('sunday');
             }
 
             if(isHoliday(actual)){
