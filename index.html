@@ -21,6 +21,7 @@
 
     --shadow:0 6px 18px rgba(146,111,214,0.10);
     --surface:#ffffff;
+    --page-bg:transparent;
     --header-grad-1:#d9c8ff;
     --header-grad-2:#b795ff;
 }
@@ -32,6 +33,7 @@
         --line:rgba(255,255,255,0.08);
         --shadow:0 8px 20px rgba(0,0,0,0.22);
         --surface:#2a2a2a;
+        --page-bg:#2a2a2a;
         --header-grad-1:#c8b0ff;
         --header-grad-2:#b795ff;
     }
@@ -40,13 +42,13 @@
 html,body{
     margin:0;
     padding:0;
-    background:transparent;
+    background:var(--page-bg);
 }
 
 body{
     font-family:'Playfair Display', serif;
     color:var(--text);
-    background:transparent;
+    background:var(--page-bg);
 }
 
 .wrapper{
@@ -54,6 +56,7 @@ body{
     justify-content:center;
     padding:6px;
     box-sizing:border-box;
+    background:var(--page-bg);
 }
 
 #calendari{
@@ -62,6 +65,7 @@ body{
     aspect-ratio:1 / 1;
     position:relative;
     font-size:clamp(13px,1.25vw,16px);
+    background:var(--page-bg);
 }
 
 table{
@@ -353,11 +357,6 @@ function calendari(widget, data){
                 classes.push('avui');
             }
 
-            /* 列ベースで土日判定
-               d=1..7 で回しているため
-               d=6 -> Saturday
-               d=7 -> Sunday
-            */
             if(d === 6){
                 classes.push('saturday');
             }
