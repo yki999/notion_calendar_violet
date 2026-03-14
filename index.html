@@ -11,24 +11,17 @@
 
 :root{
   color-scheme: light dark;
-
   --accent:#b795ff;
   --accent-soft:#e6dbff;
   --accent-deep:#9a73f2;
-
   --holiday:#df8cab;
   --saturday:#9a73f2;
-
   --text:#5a4d61;
   --muted:#9c8fb3;
   --line:rgba(0,0,0,0.08);
-
-  /* シャドウを少し強めにして存在感を復活 */
-  --shadow: 0 10px 30px rgba(146,111,214,0.15);
-
+  --shadow:0 6px 18px rgba(146,111,214,0.10);
   --header-grad-1:#d9c8ff;
   --header-grad-2:#b795ff;
-  
   --table-bg: #ffffff;
 }
 
@@ -36,15 +29,10 @@
   :root{
     --text:#f1e9f5;
     --muted:#c4b7d6;
-    --line:rgba(255,255,255,0.1);
-
-    /* ダークモードでも微かにシャドウを付けて浮き上がらせる */
-    --shadow: 0 10px 30px rgba(0,0,0,0.5);
-
+    --line:rgba(255,255,255,0.08);
+    --shadow:none;
     --header-grad-1:#c8b0ff;
     --header-grad-2:#b795ff;
-    
-    /* Notionのダークモードの背景に合わせた色 */
     --table-bg: #191919; 
   }
 }
@@ -53,7 +41,8 @@ html,body{
   margin:0;
   padding:0;
   height: 100%; 
-  background-color: transparent; /* bodyは透明にしてNotionに馴染ませる */
+  /* GitHub上でも箱が見えるよう、bodyには極薄の背景を置きますが、Notionでは透明に見えます */
+  background-color: rgba(128, 128, 128, 0.01);
   overflow: hidden;
 }
 
@@ -71,18 +60,14 @@ body{
   align-items: center;
   width: 100%;
   height: 100%;
-  box-sizing:border-box;
 }
 
 #calendari{
   width: 95%;
-  max-width: 399px; /* 95%スケール */
+  max-width: 399px; /* 全体95%縮小 */
   aspect-ratio:1/1;
   position:relative;
   font-size:clamp(13px,1.25vw,16px);
-  
-  /* シャドウをここにかけることで、中身が透明でも外枠が維持される */
-  filter: drop-shadow(var(--shadow));
 }
 
 table{
@@ -91,14 +76,12 @@ table{
   border-collapse:separate;
   border-spacing:0;
   table-layout:fixed;
-  
-  background-color: var(--table-bg); /* ここで背景色を確定させる */
-  
-  border-radius:12px; /* 角丸を少し滑らかに */
+  box-shadow:var(--shadow);
+  background-color: var(--table-bg);
+  border-radius:3px; /* 角丸を元の3pxに復元 */
   overflow:hidden;
   position:absolute;
   inset:0;
-  border: 1px solid var(--line);
 }
 
 td,th{
@@ -152,18 +135,22 @@ td>span{
   justify-content:center;
   width:100%;
   min-height:44px;
-  line-height:1;
 }
 
 td.saturday>span{ color:var(--saturday); }
 td.sunday>span{ color:var(--holiday); }
 
+/* --- 修正：本日の正円を死守 --- */
 td.avui>span{
   width:32px;
   height:32px;
+  min-width:32px; /* 楕円化防止 */
+  min-height:32px; /* 楕円化防止 */
+  flex-shrink: 0;  /* 楕円化防止 */
+  margin: auto;
   background:var(--accent);
   color:#fff;
-  border-radius:50%;
+  border-radius:50%; /* ここは50%で正円 */
   box-shadow:0 2px 6px rgba(183,149,255,.35);
 }
 
@@ -174,12 +161,13 @@ td.fora>span{ opacity:.2; }
 .boto-next, .boto-prev{
   position:absolute;
   top:10px;
-  width:28px;
-  height:28px;
+  width:24px;
+  height:24px;
   border-radius:50%;
   border:none;
-  background:rgba(255,255,255,.2);
+  background:rgba(255,255,255,.25);
   color:#fff;
+  font-weight:bold;
   cursor:pointer;
   display:flex;
   align-items:center;
